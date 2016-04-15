@@ -69,7 +69,7 @@ Returns `im, df` where `im` is a black and white image only showing the objects 
 ---
 
 
-`groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen, minlen, maxlen)`
+`groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)`
 
 Given some image without rotation with rectangular holes in a ground plane...
 
@@ -78,6 +78,4 @@ Given some image without rotation with rectangular holes in a ground plane...
   * `dim` - 1 or 2 (should be 1 for col, 2 for row)
   * `spacing` - The design spacing between hole centers in the ground plane.
   * `noiselen` - Contiguous lengths of 1 or 0 shorter than this are ignored in length determination.
-  * `minlen` - Reject lengths shorter than this from the final results.
-  * `maxlen` - Reject lengths longer than this from the final results.
 

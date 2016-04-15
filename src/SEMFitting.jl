@@ -59,9 +59,6 @@ function sizerange(img::AbstractImage, scale, min, max; thresh=0.5, tone=true)
     a = convert(Image{Images.Gray}, img)
     a[a.<thresh] = 0.0
     a[a.>=thresh] = 1.0
-    a = dilate(a)
-    a[a.<thresh] = 0.0
-    a[a.>=thresh] = 1.0
     tone && (a = 1.0 - a)
     b = convert(Array{Bool}, Images.data(a))
     arr = label_components(b)
@@ -95,13 +92,14 @@ function colrow(df::DataFrame, cols, rows)
     end
     xcen = kmeans(Array{Float64}(transpose(xlen)), cols).centers
     ycen = kmeans(Array{Float64}(transpose(ylen)), rows).centers
-    transpose(xcen), transpose(ycen)
+    sort!(reshape(transpose(xcen), (length(xcen),))),
+        sort!(reshape(transpose(ycen), (length(ycen),)))
+    # transpose(xcen), transpose(ycen)
 end
 
 # img has correct scaling set
-# minlength is in physical units
 """
-`groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen, minlen, maxlen)`
+`groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)`
 
 Given some image without rotation with rectangular holes in a ground plane...
 
@@ -111,10 +109,8 @@ Given some image without rotation with rectangular holes in a ground plane...
 - `spacing` - The design spacing between hole centers in the ground plane.
 - `noiselen` - Contiguous lengths of 1 or 0 shorter than this are ignored in
 length determination.
-- `minlen` - Reject lengths shorter than this from the final results.
-- `maxlen` - Reject lengths longer than this from the final results.
 """
-function groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen, minlen, maxlen)
+function groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)
     sd = img["spacedirections"]
     distpp = sd[1]
     a = convert(Image{Images.Gray}, img)
@@ -138,6 +134,7 @@ function groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen, m
             ctr += 1
             last = z
         end
+        ctr != 1 && push!(pix, ctr)
 
         minpix = round(noiselen/distpp)
         runninglength = 0
@@ -151,11 +148,9 @@ function groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen, m
     end
 
     l = 0.0
-    count = 0
     for arr in pixlengths
-        ct = 0
-        deleteat!(arr, find(x->(x < minlen/distpp), arr))
-        deleteat!(arr, find(x->(x > maxlen/distpp), arr))
+        deleteat!(arr, 1)
+        pop!(arr)
         mod(length(arr), 2) == 1 && pop!(arr)
         l += reduce(+, arr) / (length(arr) / 2)
     end
@@ -163,6 +158,7 @@ function groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen, m
     # Now l is the average length in pixels
     distpp = spacing/l
 
+    display(pixlengths)
     physlengths = reduce(hcat, [map(x->x*distpp, arr) for arr in pixlengths])
     # distpp, physlengths
 end
