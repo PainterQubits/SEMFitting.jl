@@ -1,0 +1,3 @@
+using Documenter, SEMFitting
+
+makedocs()
