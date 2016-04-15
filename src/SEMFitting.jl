@@ -3,6 +3,7 @@ using Images
 import DataFrames
 using DataFrames: DataFrame, sort!
 using Clustering
+using Optim
 
 export approxscale!
 export sizerange
@@ -90,11 +91,49 @@ function colrow(df::DataFrame, cols, rows)
         xlen[i] = x
         ylen[i] = y
     end
-    xcen = kmeans(Array{Float64}(transpose(xlen)), cols).centers
-    ycen = kmeans(Array{Float64}(transpose(ylen)), rows).centers
-    sort!(reshape(transpose(xcen), (length(xcen),))),
-        sort!(reshape(transpose(ycen), (length(ycen),)))
-    # transpose(xcen), transpose(ycen)
+    df2 = DataFrame(xlen = xlen, ylen = ylen)
+    xres = kmeans(Array{Float64}(transpose(xlen)), cols) #.centers
+    df2[:xassign] = xres.assignments
+    yres = kmeans(Array{Float64}(transpose(ylen)), rows)
+    df2[:yassign] = yres.assignments
+    xmeans, ymeans = xres.centers, yres.centers
+
+    rowcoefs = Float64[]
+    for i in 1:rows
+        df3 = df2[find(x->x==i, df2[:yassign]), [:xlen, :ylen]]
+        function sqerror(betas)
+            err = 0.0
+            for i in 1:length(df3[:xlen])
+                pred_i = betas[1] + betas[2] * df3[:xlen][i]
+                err += (df3[:ylen][i] - pred_i)^2
+            end
+            err
+        end
+        result = Optim.minimizer(optimize(sqerror, [0.0, 0.0]))
+        push!(rowcoefs, result...)
+    end
+
+    colcoefs = Float64[]
+    for i in 1:cols
+        df3 = df2[find(x->x==i, df2[:xassign]), [:xlen, :ylen]]
+        function sqerror(betas)
+            err = 0.0
+            for i in 1:length(df3[:ylen])
+                pred_i = betas[1] + betas[2] * df3[:ylen][i]
+                err += (df3[:xlen][i] - pred_i)^2
+            end
+            err
+        end
+        result = Optim.minimizer(optimize(sqerror, [0.0, 0.0]))
+        push!(colcoefs, result...)
+    end
+
+    rowcoefs, colcoefs
+
+    # ymeans = yres.centers
+    # sort!(reshape(transpose(xmeans), (length(x,means),))),
+    #     sort!(reshape(transpose(ymeans), (length(ymeans),)))
+    # transpose(xmeans), transpose(ymeans)
 end
 
 # img has correct scaling set
