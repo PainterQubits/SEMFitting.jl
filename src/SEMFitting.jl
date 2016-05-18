@@ -104,7 +104,7 @@ end
 Given some image without rotation with rectangular holes in a ground plane...
 
 - `img` - a binary image (expects grayscale).
-- `cols_or_rows`- typically one of the results from [`colrow`]({ref}).
+- `cols_or_rows`- typically one of the results from [`colrow`](@ref).
 - `dim` - 1 or 2 (should be 1 for col, 2 for row)
 - `spacing` - The design spacing between hole centers in the ground plane.
 - `noiselen` - Contiguous lengths of 1 or 0 shorter than this are ignored in
