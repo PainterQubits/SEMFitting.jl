@@ -12,8 +12,9 @@ Forthcoming
 
 ## API
 
-    {docs}
-    approxscale!
-    colrow
-    sizerange
-    groundplane
+```@docs
+approxscale!
+colrow
+sizerange
+groundplane
+```
