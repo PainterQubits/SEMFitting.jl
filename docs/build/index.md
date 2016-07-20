@@ -12,7 +12,7 @@ A package for fitting images from the SEM in the Painter Group cleanroom.
 ## Installation
 
 
-  * `Pkg.clone("https://github.com/ajkeller34/SEMFitting.jl.git")`
+  * `Pkg.clone("https://github.com/PainterQubits/SEMFitting.jl.git")`
 
 
 <a id='Usage-1'></a>
@@ -30,10 +30,11 @@ Forthcoming
 <a id='SEMFitting.approxscale!' href='#SEMFitting.approxscale!'>#</a>
 **`SEMFitting.approxscale!`** &mdash; *Function*.
 
----
 
 
-`approxscale!(img::AbstractImage, scale, scalerow=1758)`
+```
+approxscale!(img::AbstractImage, scale, scalerow=1758)
+```
 
 Given an SEM image `img` with scale bar of physical length `scale`, returns physical length per pixel and sets the `spacedirections` property of the image. Assumes that the scale bar is alone in pixel row `scalerow` of the image, which defaults to 1758 (good for Painter group SEM).
 
@@ -42,20 +43,22 @@ Currently uses the far extrema of the scale bar to determine length.
 <a id='SEMFitting.colrow' href='#SEMFitting.colrow'>#</a>
 **`SEMFitting.colrow`** &mdash; *Function*.
 
----
 
 
-`colrow(df::DataFrame, cols, rows)`
+```
+colrow(df::DataFrame, cols, rows)
+```
 
 Uses some clustering to determine rows and columns of found objects in `df`. You should tell it the number of columns and rows for the correct clustering.
 
 <a id='SEMFitting.sizerange' href='#SEMFitting.sizerange'>#</a>
 **`SEMFitting.sizerange`** &mdash; *Function*.
 
----
 
 
-`sizerange(img::AbstractImage, scale, min, max; thresh=0.5, tone=true)`
+```
+sizerange(img::AbstractImage, scale, min, max; thresh=0.5, tone=true)
+```
 
 Does grayscale conversion and thresholding of image `img`, with `thresh` for thresholding and `tone` for optional inversion (default to true).
 
@@ -66,10 +69,11 @@ Returns `im, df` where `im` is a black and white image only showing the objects 
 <a id='SEMFitting.groundplane' href='#SEMFitting.groundplane'>#</a>
 **`SEMFitting.groundplane`** &mdash; *Function*.
 
----
 
 
-`groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)`
+```
+groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)
+```
 
 Given some image without rotation with rectangular holes in a ground plane...
 
