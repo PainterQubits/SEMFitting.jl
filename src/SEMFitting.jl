@@ -10,7 +10,9 @@ export colrow
 export groundplane
 
 """
-`approxscale!(img::AbstractImage, scale, scalerow=1758)`
+```
+approxscale!(img::AbstractImage, scale, scalerow=1758)
+```
 
 Given an SEM image `img` with scale bar of physical length `scale`,
 returns physical length per pixel and sets the `spacedirections` property
@@ -41,7 +43,9 @@ function approxscale!(img::AbstractImage, scale, scalerow=1758)
 end
 
 """
-`sizerange(img::AbstractImage, scale, min, max; thresh=0.5, tone=true)`
+```
+sizerange(img::AbstractImage, scale, min, max; thresh=0.5, tone=true)
+```
 
 Does grayscale conversion and thresholding of image `img`, with `thresh` for
 thresholding and `tone` for optional inversion (default to true).
@@ -77,7 +81,9 @@ function sizerange(img::AbstractImage, scale, min, max; thresh=0.5, tone=true)
 end
 
 """
-`colrow(df::DataFrame, cols, rows)`
+```
+colrow(df::DataFrame, cols, rows)
+```
 
 Uses some clustering to determine rows and columns of found objects in `df`.
 You should tell it the number of columns and rows for the correct clustering.
@@ -99,7 +105,9 @@ end
 
 # img has correct scaling set
 """
-`groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)`
+```
+groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)
+```
 
 Given some image without rotation with rectangular holes in a ground plane...
 

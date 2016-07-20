@@ -1,5 +1,5 @@
 site_name:        SEMFitting.jl
-repo_url:         https://github.com/ajkeller34/SEMFitting.jl
+repo_url:         https://github.com/PainterQubits/SEMFitting.jl
 site_description: Package for fitting images from the SEM.
 site_author:      Andrew Keller
 
