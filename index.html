@@ -127,7 +127,7 @@
       <div class="drawer">
         <nav aria-label="Navigation">
   
-  <a href="https://github.com/ajkeller34/SEMFitting.jl" class="project">
+  <a href="https://github.com/PainterQubits/SEMFitting.jl" class="project">
     <div class="banner">
       
       <div class="name">
@@ -139,7 +139,7 @@
         </strong>
         
           <br>
-          ajkeller34/SEMFitting.jl
+          PainterQubits/SEMFitting.jl
         
       </div>
     </div>
@@ -150,12 +150,12 @@
         <ul class="repo">
           <li class="repo-download">
             
-            <a href="https://github.com/ajkeller34/SEMFitting.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+            <a href="https://github.com/PainterQubits/SEMFitting.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
               <i class="icon icon-download"></i> Download
             </a>
           </li>
           <li class="repo-stars">
-            <a href="https://github.com/ajkeller34/SEMFitting.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+            <a href="https://github.com/PainterQubits/SEMFitting.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
               <i class="icon icon-star"></i> Stars
               <span class="count">&ndash;</span>
             </a>
@@ -227,7 +227,7 @@
 <p><a id='Installation-1'></a></p>
 <h2 id="installation">Installation</h2>
 <ul>
-<li><code>Pkg.clone("https://github.com/ajkeller34/SEMFitting.jl.git")</code></li>
+<li><code>Pkg.clone("https://github.com/PainterQubits/SEMFitting.jl.git")</code></li>
 </ul>
 <p><a id='Usage-1'></a></p>
 <h2 id="usage">Usage</h2>
@@ -236,26 +236,34 @@
 <h2 id="api">API</h2>
 <p><a id='SEMFitting.approxscale!' href='#SEMFitting.approxscale!'>#</a>
 <strong><code>SEMFitting.approxscale!</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
-<p><code>approxscale!(img::AbstractImage, scale, scalerow=1758)</code></p>
+<div class="codehilite"><pre><span></span>approxscale!(img::AbstractImage, scale, scalerow=1758)
+</pre></div>
+
+
 <p>Given an SEM image <code>img</code> with scale bar of physical length <code>scale</code>, returns physical length per pixel and sets the <code>spacedirections</code> property of the image. Assumes that the scale bar is alone in pixel row <code>scalerow</code> of the image, which defaults to 1758 (good for Painter group SEM).</p>
 <p>Currently uses the far extrema of the scale bar to determine length.</p>
 <p><a id='SEMFitting.colrow' href='#SEMFitting.colrow'>#</a>
 <strong><code>SEMFitting.colrow</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
-<p><code>colrow(df::DataFrame, cols, rows)</code></p>
+<div class="codehilite"><pre><span></span>colrow(df::DataFrame, cols, rows)
+</pre></div>
+
+
 <p>Uses some clustering to determine rows and columns of found objects in <code>df</code>. You should tell it the number of columns and rows for the correct clustering.</p>
 <p><a id='SEMFitting.sizerange' href='#SEMFitting.sizerange'>#</a>
 <strong><code>SEMFitting.sizerange</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
-<p><code>sizerange(img::AbstractImage, scale, min, max; thresh=0.5, tone=true)</code></p>
+<div class="codehilite"><pre><span></span><span class="nt">sizerange</span><span class="o">(</span><span class="nt">img</span><span class="o">:</span><span class="nd">:AbstractImage</span><span class="o">,</span> <span class="nt">scale</span><span class="o">,</span> <span class="nt">min</span><span class="o">,</span> <span class="nt">max</span><span class="o">;</span> <span class="nt">thresh</span><span class="o">=</span><span class="nt">0</span><span class="nc">.5</span><span class="o">,</span> <span class="nt">tone</span><span class="o">=</span><span class="nt">true</span><span class="o">)</span>
+</pre></div>
+
+
 <p>Does grayscale conversion and thresholding of image <code>img</code>, with <code>thresh</code> for thresholding and <code>tone</code> for optional inversion (default to true).</p>
 <p>Next, extract components of the binary image that are within a specified size range <code>min</code> to <code>max</code> where these are units of area in terms of the approximate physical scale of the image. The <code>scale</code> parameter is the length of the scale bar.</p>
 <p>Returns <code>im, df</code> where <code>im</code> is a black and white image only showing the objects in the specified size range, and <code>df</code> is a <code>DataFrame</code> with the sizes, image indices, and centroids of the found objects.</p>
 <p><a id='SEMFitting.groundplane' href='#SEMFitting.groundplane'>#</a>
 <strong><code>SEMFitting.groundplane</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
-<p><code>groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen, minlen, maxlen)</code></p>
+<div class="codehilite"><pre><span></span>groundplane(img::AbstractImage, cols_or_rows, dim, spacing, noiselen)
+</pre></div>
+
+
 <p>Given some image without rotation with rectangular holes in a ground plane...</p>
 <ul>
 <li><code>img</code> - a binary image (expects grayscale).</li>
@@ -263,8 +271,6 @@
 <li><code>dim</code> - 1 or 2 (should be 1 for col, 2 for row)</li>
 <li><code>spacing</code> - The design spacing between hole centers in the ground plane.</li>
 <li><code>noiselen</code> - Contiguous lengths of 1 or 0 shorter than this are ignored in length determination.</li>
-<li><code>minlen</code> - Reject lengths shorter than this from the final results.</li>
-<li><code>maxlen</code> - Reject lengths longer than this from the final results.</li>
 </ul>
           <aside class="copyright" role="note">
             
@@ -319,7 +325,7 @@
     </main>
     <script>
       var base_url = '.';
-      var repo_id  = 'ajkeller34/SEMFitting.jl';
+      var repo_id  = 'PainterQubits/SEMFitting.jl';
     </script>
     <script src="./assets/javascripts/application-997097ee0c.js"></script>
     
